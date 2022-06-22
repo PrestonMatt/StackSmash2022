@@ -42,7 +42,7 @@ def runProgramNetworked(port,exePath,output):
     exeArg = 'EXEC:' + exePath + ',pty'
     print("The path you entered is %s, and the arg for socat is: %s" %(exePath, exeArg))
     #run this command from the shell:
-    #socat -v -v -v TCP4-LISTEN:9005,fork EXEC:/home/msprest/Desktop/StackSmash/socatter
+    #socat -v -v -v TCP4-LISTEN:9005,fork EXEC:/path/to/file/
     loopback_process = subprocess.Popen(['socat', '-v', '-v', '-v', loPortArg, exeArg],stdout=output,stderr=output,stdin=PIPE)
     print("Executable on loopback established.\n")
 
@@ -170,7 +170,7 @@ def main():
     #         pwntoolstime(port)
     #     else:
     #         print("Valid port not found. Defaulting to port 9000 on loopback.")
-    #         runProgram(9000,output,"/home/msprest/Desktop/StackSmash/socatter")
+    #         runProgram(9000,output,"xxxPATHxxx")
     #         pwntoolstime(9000)
     # else:
     #     print("Please include system argument options! The first system argument should be your desired port number, and the second should be your absolute path to the vulnerable executable.")
