@@ -92,7 +92,7 @@ int main(){
 void asmFunc(){
 	asm volatile(
 		
-		"jmp .+0x21\n\t"
+		//"jmp .+0x21\n\t"
 
 		//each line is " \n\t"
 		//"sub rsp,0x10\n\t" //make space on the stack for char name[] and char *name2[1];
@@ -115,6 +115,8 @@ void asmFunc(){
 		"mov eax,0x3b\n\t" //INTO the execve fall
 		"syscall\n\t" //
 
-		"call .-0x1F\n\t" //we need to jump to here to call this function
+		//"call .-0x1F\n\t" //we need to jump to here to call this function
 	);
 }
+
+// shellcode: 48 b8 2f 62 69 6e 2f 73 68 00 48 89 45 f8 48 8d 75 f0 48 8d 7d f8 b2 00 b8 3b 00 00 00 0f 05

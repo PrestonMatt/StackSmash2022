@@ -4,6 +4,7 @@ from pwn import p64,cyclic_gen,remote
 from subprocess import Popen, PIPE, STDOUT
 import subprocess
 import re
+import time
 
 def createPayload():
     cyc = cyclic_gen() #JUNK
@@ -42,18 +43,19 @@ def runProgramNetworked(port,exePath,output):
     exeArg = 'EXEC:' + exePath + ',pty'
     print("The path you entered is %s, and the arg for socat is: %s" %(exePath, exeArg))
     #run this command from the shell:
-    #socat -v -v -v TCP4-LISTEN:9005,fork EXEC:/path/to/file/
+    #socat -v -v -v TCP4-LISTEN:9005,fork EXEC:/home/msprest/Desktop/StackSmash/socatter
     loopback_process = subprocess.Popen(['socat', '-v', '-v', '-v', loPortArg, exeArg],stdout=output,stderr=output,stdin=PIPE)
     print("Executable on loopback established.\n")
+    return loopback_process
 
 def pwntoolstime(port):
 
     loopback = '127.0.0.1'
     conn = remote(loopback,port)
-    conn.send(b'TESTTEST') #Send it 1 test byte
+    #conn.send(b'TESTTEST') #Send it 1 test byte
 
     print("Starting to talk with the program.")
-    conn.send(b'TESTTEST') #Send it 1 test byte
+    #conn.send(b'TESTTEST') #Send it 1 test byte
 
     for x in range(5):
         print(conn.recv().decode())
@@ -141,12 +143,18 @@ def main():
     
     if(networked):
         if(port > 2000 and port < 65353): #another option for this check: (isinstance(port,int)):
-            runProgramNetworked(port,absPath,output)
+            loproc = runProgramNetworked(port,absPath,output)
+            time.sleep(5)
             pwntoolstime(port)
+            time.sleep(5)
+            loproc.kill()
         else:
             print("Valid port not found. Defaulting to port 9000 on loopback.")
-            runProgramNetworked(9000,absPath,output)
+            loproc = runProgramNetworked(9000,absPath,output)
+            time.sleep(5)
             pwntoolstime(9000)
+            time.sleep(5)
+            loproc.kill()
     else:
         runProgramTerminal(absPath)
 
@@ -170,7 +178,7 @@ def main():
     #         pwntoolstime(port)
     #     else:
     #         print("Valid port not found. Defaulting to port 9000 on loopback.")
-    #         runProgram(9000,output,"xxxPATHxxx")
+    #         runProgram(9000,output,"/home/msprest/Desktop/StackSmash/socatter")
     #         pwntoolstime(9000)
     # else:
     #     print("Please include system argument options! The first system argument should be your desired port number, and the second should be your absolute path to the vulnerable executable.")
