@@ -23,5 +23,6 @@ void ohno(){ //"Oh no! I've made a coding error" -Nobody, ever.
     asm volatile(
         "ret\n\t"
     );
+    //We'll use this later
     //strcpy(small_string,large_string);
 }
